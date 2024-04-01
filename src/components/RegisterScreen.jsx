@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Button,
-  Text,
-  Platform,
-} from "react-native";
+import { StyleSheet, View, TextInput, Button, Text } from "react-native";
+import Modal from "react-native-modal";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
-import axios from "axios";
 import testEndpoint from "../endpoints/testEndpoint";
 import registerEndpoint from "../endpoints/registerEndpoint";
 YupPassword(Yup); //extend yup
 
 export default function RegisterScreen({ navigation }) {
   const [errorMessage, setErrorMessage] = useState("");
+  const [modalVisibility, setModalVisibility] = useState(false);
+  const [success, setSuccess] = useState("");
   const initialForm = {
+    userName: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -25,14 +21,18 @@ export default function RegisterScreen({ navigation }) {
     confirmPassword: "",
   };
   const signupSchema = Yup.object().shape({
+    userName: Yup.string()
+      .min(3, "Username must be between 3-20 characters")
+      .max(20, "Username must be between 3-20 characters")
+      .required("Username must be between 3-20 characters"),
     firstName: Yup.string()
-      .min(2, "First name must be at least 2 characters")
-      .max(20, "First name must be at least 2 characters")
-      .required("First name must be at least 2 characters"),
+      .min(2, "First name must be between 2-20 characters")
+      .max(20, "First name must be between 2-20 characters")
+      .required("First name must be between 2-20 characters"),
     lastName: Yup.string()
-      .min(2, "Last name must be at least 2 characters")
-      .max(20, "Last name must be at least 2 characters")
-      .required("Last name must be at least 2 characters"),
+      .min(2, "Last name must be between 2-20 characters")
+      .max(20, "Last name must be between 2-20 characters")
+      .required("Last name must be between 2-20 characters"),
     email: Yup.string().email("Invalid email").required("Email required"),
     password: Yup.string()
       .min(2, "Password must be at least 8 characters")
@@ -49,87 +49,113 @@ export default function RegisterScreen({ navigation }) {
   });
 
   const handleSubmit = async (form) => {
-    //TODO: iOS can hit endpoints but android gets network errors
-    //try http://10.0.2.2 for android emulator
     try {
       // await testEndpoint();
-      const registered = await registerEndpoint(form);
-      console.log("here");
-      registered.form
-        ? setErrorMessage(registered.message)
-        : setErrorMessage(registered.message);
+      const response = await registerEndpoint(form);
+      response.status == 200
+        ? finishRegistration()
+        : setErrorMessage(response.data.message);
     } catch (error) {
-      console.error("Error connecting to server");
+      setErrorMessage("Error connecting to server");
     }
+  };
+  const finishRegistration = () => {
+    setSuccess("Reigstration successful!");
+    setModalVisibility(false);
+    setErrorMessage("");
   };
 
   return (
-    <Formik
-      initialValues={initialForm}
-      onSubmit={handleSubmit}
-      validationSchema={signupSchema}
-      validateOnChange={false}
-      validateOnBlur={false}
-      validateOnMount={false}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values: form }) => (
-        <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            onChangeText={handleChange("firstName")}
-            onBlur={handleBlur("firstName")}
-            value={form.firstName}
-            placeholder="First name"
-          />
-          <Text>
-            <ErrorMessage name="firstName" />
-          </Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={handleChange("lastName")}
-            onBlur={handleBlur("lastName")}
-            value={form.lastName}
-            placeholder="Last name"
-          />
-          <Text>
-            <ErrorMessage name="lastName" />
-          </Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={handleChange("email")}
-            onBlur={handleBlur("email")}
-            value={form.email}
-            placeholder="Email"
-          />
-          <Text>
-            <ErrorMessage name="email" />
-          </Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={handleChange("password")}
-            onBlur={handleBlur("password")}
-            value={form.password}
-            placeholder="Password"
-            secureTextEntry={true}
-          />
-          <Text>
-            <ErrorMessage name="password" />
-          </Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={handleChange("confirmPassword")}
-            onBlur={handleBlur("confirmPassword")}
-            value={form.confirmPassword}
-            placeholder="Confirm password"
-            secureTextEntry={true}
-          />
-          <Text>
-            <ErrorMessage name="confirmPassword" />
-          </Text>
-          <Button onPress={handleSubmit} title="Submit" />
-        </View>
-      )}
-    </Formik>
+    <>
+      <Modal
+        animationIn="slideInRight"
+        animationOut="slideOutRight"
+        onRequestClose={() => setModalVisibility(false)}
+        isVisible={modalVisibility}
+        style={styles.modal}
+      >
+        <Formik
+          initialValues={initialForm}
+          onSubmit={handleSubmit}
+          validationSchema={signupSchema}
+          validateOnChange={false}
+          validateOnBlur={false}
+          validateOnMount={false}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values: form }) => (
+            <View style={styles.form}>
+              <TextInput
+                style={styles.input}
+                onChangeText={handleChange("userName")}
+                onBlur={handleBlur("userName")}
+                value={form.userName}
+                placeholder="Username"
+              />
+              <Text>
+                <ErrorMessage name="userName" />
+              </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={handleChange("firstName")}
+                onBlur={handleBlur("firstName")}
+                value={form.firstName}
+                placeholder="First name"
+              />
+              <Text>
+                <ErrorMessage name="firstName" />
+              </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={handleChange("lastName")}
+                onBlur={handleBlur("lastName")}
+                value={form.lastName}
+                placeholder="Last name"
+              />
+              <Text>
+                <ErrorMessage name="lastName" />
+              </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={handleChange("email")}
+                onBlur={handleBlur("email")}
+                value={form.email}
+                placeholder="Email"
+              />
+              <Text>
+                <ErrorMessage name="email" />
+              </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={handleChange("password")}
+                onBlur={handleBlur("password")}
+                value={form.password}
+                placeholder="Password"
+                secureTextEntry={true}
+              />
+              <Text>
+                <ErrorMessage name="password" />
+              </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={handleChange("confirmPassword")}
+                onBlur={handleBlur("confirmPassword")}
+                value={form.confirmPassword}
+                placeholder="Confirm password"
+                secureTextEntry={true}
+              />
+              <Text>
+                <ErrorMessage name="confirmPassword" />
+              </Text>
+              <Button onPress={handleSubmit} title="Submit" />
+              <Button onPress={() => setModalVisibility(false)} title="Back" />
+              <Text>{errorMessage}</Text>
+            </View>
+          )}
+        </Formik>
+      </Modal>
+      <Button onPress={() => setModalVisibility(true)} title="Create account" />
+      <Text style={{ textAlign: "center" }}>{success}</Text>
+    </>
   );
 }
 
@@ -142,5 +168,13 @@ const styles = StyleSheet.create({
   },
   form: {
     alignItems: "center",
+  },
+  modal: {
+    marginTop: 50,
+    height: "50",
+    flex: 1,
+    justifyContent: "flex-start",
+    paddingTop: 20,
+    backgroundColor: "white",
   },
 });
