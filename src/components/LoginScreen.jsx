@@ -1,27 +1,29 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Button, Text } from "react-native";
 import { Formik, ErrorMessage } from "formik";
-import testEndpoint from "../endpoints/testEndpoint";
-import registerEndpoint from "../endpoints/registerEndpoint";
+import { useDispatch, useSelector } from "react-redux";
 import RegisterScreen from "./RegisterScreen";
+import axios from "axios";
+import domain from "../endpoints/domain";
+import { jwtUpdate } from "../redux/slice";
 
 export default function LoginScreen({ navigation }) {
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const loginForm = {
-    userName: "",
+    username: "",
     password: "",
   };
 
   const loginSubmit = async (form) => {
     try {
-      await testEndpoint();
-      const registered = await registerEndpoint(form);
-      console.log("here");
-      registered.form
-        ? setErrorMessage(registered.message)
-        : setErrorMessage(registered.message);
+      const response = await axios.post(`http://${domain}:4000/login`, form);
+      const token = response.data;
+      dispatch(jwtUpdate(token));
+      navigation.navigate("Profile");
     } catch (error) {
-      console.error("Error connecting to server");
+      setErrorMessage("Login failed");
+      console.log(error);
     }
   };
 
@@ -32,9 +34,9 @@ export default function LoginScreen({ navigation }) {
           <View style={styles.form}>
             <TextInput
               style={styles.input}
-              onChangeText={handleChange("userName")}
-              onBlur={handleBlur("userName")}
-              value={form.userName}
+              onChangeText={handleChange("username")}
+              onBlur={handleBlur("username")}
+              value={form.username}
               placeholder="Username"
             />
             <Text>
@@ -51,7 +53,8 @@ export default function LoginScreen({ navigation }) {
             <Text>
               <ErrorMessage name="password" />
             </Text>
-            <Button onPress={loginSubmit} title="Submit" />
+            <Button onPress={handleSubmit} title="Submit" />
+            <Text>{errorMessage}</Text>
           </View>
         )}
       </Formik>

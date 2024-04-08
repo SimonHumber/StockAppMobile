@@ -4,7 +4,6 @@ import Modal from "react-native-modal";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
-import testEndpoint from "../endpoints/testEndpoint";
 import registerEndpoint from "../endpoints/registerEndpoint";
 YupPassword(Yup); //extend yup
 
@@ -13,7 +12,7 @@ export default function RegisterScreen({ navigation }) {
   const [modalVisibility, setModalVisibility] = useState(false);
   const [success, setSuccess] = useState("");
   const initialForm = {
-    userName: "",
+    username: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -21,7 +20,7 @@ export default function RegisterScreen({ navigation }) {
     confirmPassword: "",
   };
   const signupSchema = Yup.object().shape({
-    userName: Yup.string()
+    username: Yup.string()
       .min(3, "Username must be between 3-20 characters")
       .max(20, "Username must be between 3-20 characters")
       .required("Username must be between 3-20 characters"),
@@ -50,7 +49,6 @@ export default function RegisterScreen({ navigation }) {
 
   const handleSubmit = async (form) => {
     try {
-      // await testEndpoint();
       const response = await registerEndpoint(form);
       response.status == 200
         ? finishRegistration()
@@ -73,6 +71,7 @@ export default function RegisterScreen({ navigation }) {
         onRequestClose={() => setModalVisibility(false)}
         isVisible={modalVisibility}
         style={styles.modal}
+        coverScreen={true}
       >
         <Formik
           initialValues={initialForm}
@@ -86,13 +85,13 @@ export default function RegisterScreen({ navigation }) {
             <View style={styles.form}>
               <TextInput
                 style={styles.input}
-                onChangeText={handleChange("userName")}
-                onBlur={handleBlur("userName")}
-                value={form.userName}
+                onChangeText={handleChange("username")}
+                onBlur={handleBlur("username")}
+                value={form.username}
                 placeholder="Username"
               />
               <Text>
-                <ErrorMessage name="userName" />
+                <ErrorMessage name="username" />
               </Text>
               <TextInput
                 style={styles.input}
@@ -146,8 +145,17 @@ export default function RegisterScreen({ navigation }) {
               <Text>
                 <ErrorMessage name="confirmPassword" />
               </Text>
-              <Button onPress={handleSubmit} title="Submit" />
-              <Button onPress={() => setModalVisibility(false)} title="Back" />
+              <View
+                style={{
+                  flexDirection: "row",
+                }}
+              >
+                <Button
+                  onPress={() => setModalVisibility(false)}
+                  title="Back"
+                />
+                <Button onPress={handleSubmit} title="Submit" />
+              </View>
               <Text>{errorMessage}</Text>
             </View>
           )}
@@ -163,7 +171,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "lightgrey",
     marginTop: 5,
-    marginBottom: 5,
+    // marginBottom: 5,
     width: "50%",
   },
   form: {
@@ -174,7 +182,7 @@ const styles = StyleSheet.create({
     height: "50",
     flex: 1,
     justifyContent: "flex-start",
-    paddingTop: 20,
+    // paddingTop: 20,
     backgroundColor: "white",
   },
 });
