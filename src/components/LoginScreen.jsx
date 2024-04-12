@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Button, Text } from "react-native";
 import { Formik, ErrorMessage } from "formik";
-import { useDispatch, useSelector } from "react-redux";
 import RegisterScreen from "./RegisterScreen";
-import axios from "axios";
-import domain from "../endpoints/domain";
-import { jwtUpdate } from "../redux/slice";
+import loginEndpoint from "../endpoints/loginEndpoint";
 
 export default function LoginScreen({ navigation }) {
-  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const loginForm = {
     username: "",
@@ -17,9 +13,7 @@ export default function LoginScreen({ navigation }) {
 
   const loginSubmit = async (form) => {
     try {
-      const response = await axios.post(`http://${domain}:4000/login`, form);
-      const token = response.data;
-      dispatch(jwtUpdate(token));
+      loginEndpoint(form);
       navigation.navigate("Profile");
     } catch (error) {
       setErrorMessage("Login failed");

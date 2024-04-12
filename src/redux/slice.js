@@ -3,13 +3,13 @@ import * as SecureStore from "expo-secure-store";
 
 const jwtSlice = createSlice({
   name: "jwt",
-  initialState: null,
+  initialState: "",
   reducers: {
     jwtUpdate(state, action) {
       return action.payload;
     },
     jwtDelete(state, action) {
-      return null;
+      return "";
     },
   },
 });
