@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import * as SecureStore from "expo-secure-store";
 
 const jwtSlice = createSlice({
   name: "jwt",
-  initialState: "",
+  initialState: null,
   reducers: {
     jwtUpdate(state, action) {
       return action.payload;
     },
     jwtDelete(state, action) {
-      return "";
+      return null;
     },
   },
 });
