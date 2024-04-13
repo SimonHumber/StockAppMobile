@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Button, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Button,
+  Text,
+  ScrollView,
+} from "react-native";
 import Modal from "react-native-modal";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -73,93 +80,95 @@ export default function RegisterScreen({ navigation }) {
         style={styles.modal}
         coverScreen={true}
       >
-        <Formik
-          initialValues={initialForm}
-          onSubmit={handleSubmit}
-          validationSchema={signupSchema}
-          validateOnChange={false}
-          validateOnBlur={false}
-          validateOnMount={false}
-        >
-          {({ handleChange, handleBlur, handleSubmit, values: form }) => (
-            <View style={styles.form}>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("username")}
-                onBlur={handleBlur("username")}
-                value={form.username}
-                placeholder="Username"
-              />
-              <Text>
-                <ErrorMessage name="username" />
-              </Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("firstName")}
-                onBlur={handleBlur("firstName")}
-                value={form.firstName}
-                placeholder="First name"
-              />
-              <Text>
-                <ErrorMessage name="firstName" />
-              </Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("lastName")}
-                onBlur={handleBlur("lastName")}
-                value={form.lastName}
-                placeholder="Last name"
-              />
-              <Text>
-                <ErrorMessage name="lastName" />
-              </Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={form.email}
-                placeholder="Email"
-              />
-              <Text>
-                <ErrorMessage name="email" />
-              </Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={form.password}
-                placeholder="Password"
-                secureTextEntry={true}
-              />
-              <Text>
-                <ErrorMessage name="password" />
-              </Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("confirmPassword")}
-                onBlur={handleBlur("confirmPassword")}
-                value={form.confirmPassword}
-                placeholder="Confirm password"
-                secureTextEntry={true}
-              />
-              <Text>
-                <ErrorMessage name="confirmPassword" />
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                }}
-              >
-                <Button
-                  onPress={() => setModalVisibility(false)}
-                  title="Back"
+        <ScrollView>
+          <Formik
+            initialValues={initialForm}
+            onSubmit={handleSubmit}
+            validationSchema={signupSchema}
+            validateOnChange={false}
+            validateOnBlur={false}
+            validateOnMount={false}
+          >
+            {({ handleChange, handleBlur, handleSubmit, values: form }) => (
+              <View style={styles.form}>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("username")}
+                  onBlur={handleBlur("username")}
+                  value={form.username}
+                  placeholder="Username"
                 />
-                <Button onPress={handleSubmit} title="Submit" />
+                <Text>
+                  <ErrorMessage name="username" />
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("firstName")}
+                  onBlur={handleBlur("firstName")}
+                  value={form.firstName}
+                  placeholder="First name"
+                />
+                <Text>
+                  <ErrorMessage name="firstName" />
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("lastName")}
+                  onBlur={handleBlur("lastName")}
+                  value={form.lastName}
+                  placeholder="Last name"
+                />
+                <Text>
+                  <ErrorMessage name="lastName" />
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={form.email}
+                  placeholder="Email"
+                />
+                <Text>
+                  <ErrorMessage name="email" />
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={form.password}
+                  placeholder="Password"
+                  secureTextEntry={true}
+                />
+                <Text>
+                  <ErrorMessage name="password" />
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("confirmPassword")}
+                  onBlur={handleBlur("confirmPassword")}
+                  value={form.confirmPassword}
+                  placeholder="Confirm password"
+                  secureTextEntry={true}
+                />
+                <Text>
+                  <ErrorMessage name="confirmPassword" />
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    onPress={() => setModalVisibility(false)}
+                    title="Back"
+                  />
+                  <Button onPress={handleSubmit} title="Submit" />
+                </View>
+                <Text>{errorMessage}</Text>
               </View>
-              <Text>{errorMessage}</Text>
-            </View>
-          )}
-        </Formik>
+            )}
+          </Formik>
+        </ScrollView>
       </Modal>
       <Button onPress={() => setModalVisibility(true)} title="Create account" />
       <Text style={{ textAlign: "center" }}>{success}</Text>

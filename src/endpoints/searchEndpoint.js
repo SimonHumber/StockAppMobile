@@ -3,10 +3,15 @@ import axios from "axios";
 
 const searchEndpoint = async (query) => {
   try {
-    const response = await axios.post(`http://${domain}:4000/search`, {
-      query,
-    });
-    return response;
+    let response;
+    if (query.length > 0) {
+      response = axios.post(`http://${domain}:4000/search`, {
+        query,
+      });
+      return response;
+    } else {
+      return { data: { results: [] } };
+    }
   } catch (error) {
     console.log(error);
     return error;
