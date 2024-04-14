@@ -2,7 +2,7 @@ import domain from "./domain";
 import axios from "axios";
 import store from "../redux/store";
 
-const partnerFavEndpoint = async () => {
+const partnerFavEndpoint = async (partner) => {
   try {
     const jwt = store.getState().jwt;
     const header = {

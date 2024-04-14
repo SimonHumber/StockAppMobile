@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { View, Button, TextInput, Text, ScrollView } from "react-native";
+import { Button, Text, ScrollView } from "react-native";
 import Ticker from "./Ticker";
-import { useSelector } from "react-redux";
 import partnerFavEndpoint from "../endpoints/partnerFavEndpoint";
 
-const PartnerPorfolio = ({ navigation, partner }) => {
+const PartnerPorfolio = ({ route, navigation }) => {
+  partner = route.params.partner;
   const [saved, setSaved] = useState([]);
-  const loggedIn = useSelector((state) => {
-    return state.jwt;
-  });
   const fetchData = async () => {
     try {
-      if (loggedIn) {
-        const data = await partnerFavEndpoint(partner);
+      const data = await partnerFavEndpoint(partner);
+      if (data.data.length > 0) {
         setSaved(data.data);
       } else {
         setSaved([]);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setSaved([]);
     }
   };
@@ -40,7 +37,7 @@ const PartnerPorfolio = ({ navigation, partner }) => {
           ></Ticker>
         ))
       ) : (
-        <Text>Save stocks to see them here!</Text>
+        <Text>Partner has no stocks!</Text>
       )}
     </ScrollView>
   );

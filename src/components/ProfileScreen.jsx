@@ -25,9 +25,9 @@ export default function ProfileScreen({ navigation }) {
   const partnerView = () => {
     navigation.navigate("ListPartners");
   };
-  console.log(user);
   return (
     <View>
+      <Text>Welcome {user.firstName}!</Text>
       <Button title="View Partners" onPress={partnerView} />
       <Button title="Log out" onPress={handleLogout} />
     </View>
