@@ -9,6 +9,8 @@ import SearchScreen from "./SearchScreen";
 import StockScreen from "./StockScreen";
 import LoginScreen from "./LoginScreen";
 import ProfileScreen from "./ProfileScreen";
+import ListPartners from "./ListPartners";
+import PartnerPorfolio from "./PartnerPorfolio";
 import { AntDesign } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
@@ -25,6 +27,8 @@ export default function NavBar() {
         />
 
         <Stack.Screen name="Stock" component={StockScreen} />
+        <Stack.Screen name="ListPartners" component={ListPartners} />
+        <Stack.Screen name="PartnerPorfolio" component={PartnerPorfolio} />
       </Stack.Navigator>
     </NavigationContainer>
   );

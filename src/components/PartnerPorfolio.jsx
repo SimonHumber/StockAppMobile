@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { View, Button, TextInput, Text, ScrollView } from "react-native";
 import Ticker from "./Ticker";
 import { useSelector } from "react-redux";
-import favoriteEndpoint from "../endpoints/favoriteEndpoint";
+import partnerFavEndpoint from "../endpoints/partnerFavEndpoint";
 
-const PortfolioScreen = ({ navigation }) => {
+const PartnerPorfolio = ({ navigation, partner }) => {
   const [saved, setSaved] = useState([]);
   const loggedIn = useSelector((state) => {
     return state.jwt;
@@ -12,10 +12,8 @@ const PortfolioScreen = ({ navigation }) => {
   const fetchData = async () => {
     try {
       if (loggedIn) {
-        const data = await favoriteEndpoint();
-        if (data.response.status !== 401) {
-          setSaved(data.data);
-        }
+        const data = await partnerFavEndpoint(partner);
+        setSaved(data.data);
       } else {
         setSaved([]);
       }
@@ -31,23 +29,21 @@ const PortfolioScreen = ({ navigation }) => {
     fetchData();
   };
   return (
-    <View>
+    <ScrollView>
       <Button onPress={refresh} title="Refresh" />
-      <ScrollView>
-        {saved.length > 0 ? (
-          saved.map((result, index) => (
-            <Ticker
-              key={index}
-              symbol={saved[index]}
-              navigation={navigation}
-            ></Ticker>
-          ))
-        ) : (
-          <Text>Save stocks to see them here!</Text>
-        )}
-      </ScrollView>
-    </View>
+      {saved.length > 0 ? (
+        saved.map((result, index) => (
+          <Ticker
+            key={index}
+            symbol={saved[index]}
+            navigation={navigation}
+          ></Ticker>
+        ))
+      ) : (
+        <Text>Save stocks to see them here!</Text>
+      )}
+    </ScrollView>
   );
 };
 
-export default PortfolioScreen;
+export default PartnerPorfolio;

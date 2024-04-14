@@ -14,7 +14,7 @@ import YupPassword from "yup-password";
 import registerEndpoint from "../endpoints/registerEndpoint";
 YupPassword(Yup); //extend yup
 
-export default function RegisterScreen({ navigation }) {
+export default function RegisterModal({ navigation }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [modalVisibility, setModalVisibility] = useState(false);
   const [success, setSuccess] = useState("");

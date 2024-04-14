@@ -30,7 +30,7 @@ const Ticker = ({ index, symbol, navigation }) => {
           const data = await favoriteEndpoint(symbol);
           setFavorite(data.data.includes(symbol));
         } else {
-          false;
+          setFavorite(false);
         }
       } catch (err) {
         console.log(err);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Button, Text } from "react-native";
 import { Formik, ErrorMessage } from "formik";
-import RegisterScreen from "./RegisterScreen";
+import RegisterModal from "./RegisterModal";
 import loginEndpoint from "../endpoints/loginEndpoint";
 
 export default function LoginScreen({ navigation }) {
@@ -52,7 +52,7 @@ export default function LoginScreen({ navigation }) {
           </View>
         )}
       </Formik>
-      <RegisterScreen />
+      <RegisterModal />
     </>
   );
 }
