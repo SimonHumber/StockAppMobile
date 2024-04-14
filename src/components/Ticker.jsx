@@ -13,6 +13,16 @@ const Ticker = ({ index, symbol, navigation }) => {
   const loggedIn = useSelector((state) => {
     return state.jwt != "";
   });
+  const toggleFavorite = async () => {
+    try {
+      await toggleFavEndpoint(symbol);
+      const data = await favoriteEndpoint(symbol);
+      setFavorite(data.data.includes(symbol));
+    } catch (err) {
+      setFavorite(false);
+      console.log(err);
+    }
+  };
   useEffect(() => {
     fetchData = async () => {
       try {
@@ -27,23 +37,17 @@ const Ticker = ({ index, symbol, navigation }) => {
       }
     };
     fetchData();
-  }, []);
-  const toggleFavorite = async () => {
-    try {
-      const data = await toggleFavEndpoint(symbol);
-      setFavorite(data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    //when searching for new symbol, ticker is re-rendered, not unmounted
+    //use symbol as dependency so when symbol is updated, will re-render useEffect
+  }, [symbol]);
   return (
     <TouchableOpacity onPress={handlePress} style={styles.card}>
       <Text key={index}>{symbol}</Text>
       <TouchableOpacity onPress={toggleFavorite}>
         {favorite ? (
-          <AntDesign name={"star"} size={24} />
+          <AntDesign name={"star"} size={30} />
         ) : (
-          <AntDesign name={"staro"} size={24} />
+          <AntDesign name={"staro"} size={30} />
         )}
       </TouchableOpacity>
     </TouchableOpacity>
