@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, Image, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import favoriteEndpoint from "../endpoints/favoriteEndpoint";
@@ -39,7 +39,7 @@ const Ticker = ({ index, symbol, navigation }) => {
     fetchData();
     //when searching for new symbol, ticker is re-rendered, not unmounted
     //use symbol as dependency so when symbol is updated, will re-render useEffect
-  }, [symbol]);
+  }, [symbol, loggedIn]);
   return (
     <TouchableOpacity onPress={handlePress} style={styles.card}>
       <Text key={index}>{symbol}</Text>

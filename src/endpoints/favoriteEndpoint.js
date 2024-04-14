@@ -2,7 +2,7 @@ import domain from "./domain";
 import axios from "axios";
 import store from "../redux/store";
 
-const favoriteEndpoint = async (symbol) => {
+const favoriteEndpoint = async () => {
   try {
     const jwt = store.getState().jwt;
     const header = {
@@ -10,9 +10,7 @@ const favoriteEndpoint = async (symbol) => {
     };
     const response = await axios.post(
       `http://${domain}:4000/favorite`,
-      {
-        symbol,
-      },
+      {},
       { headers: header },
     );
     return response;
