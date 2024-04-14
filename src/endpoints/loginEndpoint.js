@@ -5,7 +5,6 @@ import { jwtUpdate } from "../redux/slice";
 
 const loginEndpoint = async (form) => {
   try {
-    console.log("here");
     const response = await axios.post(`http://${domain}:4000/login`, form);
     const token = response.data;
     store.dispatch(jwtUpdate(token));

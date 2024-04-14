@@ -8,7 +8,6 @@ const stockEndpoint = async (symbol) => {
     });
     return response;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };

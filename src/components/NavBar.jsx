@@ -29,7 +29,7 @@ export default function NavBar() {
 
 const Nav = () => {
   const loggedIn = useSelector((state) => {
-    return state.jwt;
+    return state.jwt != "";
   });
   const stateScreen = loggedIn ? ProfileScreen : LoginScreen;
 

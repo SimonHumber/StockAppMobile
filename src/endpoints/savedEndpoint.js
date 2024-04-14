@@ -1,11 +1,9 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
+import store from "../redux/store";
 import domain from "./domain";
 
 const savedEndpoint = async () => {
-  const jwt = useSelector((state) => {
-    return state.jwt;
-  });
+  const jwt = store.getState().jwt;
   try {
     const saved = await axios.post(`http://${domain}:4000/savedEndpoint`, {
       jwt,
