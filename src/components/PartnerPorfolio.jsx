@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import Ticker from "./Ticker";
 import partnerFavEndpoint from "../endpoints/partnerFavEndpoint";
 
@@ -22,12 +28,8 @@ const PartnerPorfolio = ({ route, navigation }) => {
   useEffect(() => {
     fetchData();
   }, []);
-  const refresh = () => {
-    fetchData();
-  };
   return (
-    <ScrollView>
-      <Button onPress={refresh} title="Refresh" />
+    <ScrollView contentContainerStyle={styles.container}>
       {saved.length > 0 ? (
         saved.map((result, index) => (
           <Ticker
@@ -37,10 +39,28 @@ const PartnerPorfolio = ({ route, navigation }) => {
           ></Ticker>
         ))
       ) : (
-        <Text>Partner has no stocks!</Text>
+        <Text style={styles.placeholderText}>Partner has no stocks!</Text>
       )}
     </ScrollView>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#333333", // Light shade of black
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  scrollContent: {
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
+  placeholderText: {
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 20,
+    color: "white", // Set font color to white
+  },
+});
 export default PartnerPorfolio;

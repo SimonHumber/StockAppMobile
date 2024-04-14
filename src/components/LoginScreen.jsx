@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Button, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import RegisterModal from "./RegisterModal";
 import loginEndpoint from "../endpoints/loginEndpoint";
@@ -25,7 +31,7 @@ export default function LoginScreen({ navigation }) {
     <>
       <Formik initialValues={loginForm} onSubmit={loginSubmit}>
         {({ handleChange, handleBlur, handleSubmit, values: form }) => (
-          <View style={styles.form}>
+          <View style={styles.container}>
             <TextInput
               style={styles.input}
               onChangeText={handleChange("username")}
@@ -47,24 +53,44 @@ export default function LoginScreen({ navigation }) {
             <Text>
               <ErrorMessage name="password" />
             </Text>
-            <Button onPress={handleSubmit} title="Submit" />
+            <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
             <Text>{errorMessage}</Text>
+            <RegisterModal />
           </View>
         )}
       </Formik>
-      <RegisterModal />
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#333333",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    alignItems: "center",
+  },
   input: {
-    backgroundColor: "lightgrey",
+    backgroundColor: "#f8f9fa",
     marginTop: 5,
     marginBottom: 5,
     width: "50%",
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 5,
   },
-  form: {
-    alignItems: "center",
+  button: {
+    backgroundColor: "#4caf50",
+    marginTop: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });

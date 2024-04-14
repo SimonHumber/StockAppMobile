@@ -42,12 +42,12 @@ const Ticker = ({ index, symbol, navigation }) => {
   }, [symbol, loggedIn]);
   return (
     <TouchableOpacity onPress={handlePress} style={styles.card}>
-      <Text key={index}>{symbol}</Text>
+      <Text style={styles.symbol}>{symbol}</Text>
       <TouchableOpacity onPress={toggleFavorite}>
         {favorite ? (
-          <AntDesign name={"star"} size={30} />
+          <AntDesign name="star" size={30} color="gold" />
         ) : (
-          <AntDesign name={"staro"} size={30} />
+          <AntDesign name="staro" size={30} color="gold" />
         )}
       </TouchableOpacity>
     </TouchableOpacity>
@@ -59,12 +59,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "80%",
+    width: "100%",
     height: 70,
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: 5,
-    backgroundColor: "grey",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  symbol: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
   },
 });
 export default Ticker;

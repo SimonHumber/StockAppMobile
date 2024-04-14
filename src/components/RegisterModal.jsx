@@ -3,11 +3,12 @@ import {
   StyleSheet,
   View,
   TextInput,
-  Button,
+  TouchableOpacity,
   Text,
   ScrollView,
+  Modal,
 } from "react-native";
-import Modal from "react-native-modal";
+// import Modal from "react-native-modal";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
@@ -73,14 +74,11 @@ export default function RegisterModal({ navigation }) {
   return (
     <>
       <Modal
-        animationIn="slideInRight"
-        animationOut="slideOutRight"
+        animationType="slide"
         onRequestClose={() => setModalVisibility(false)}
-        isVisible={modalVisibility}
-        style={styles.modal}
-        coverScreen={true}
+        visible={modalVisibility}
       >
-        <ScrollView>
+        <ScrollView style={styles.scrollView}>
           <Formik
             initialValues={initialForm}
             onSubmit={handleSubmit}
@@ -98,7 +96,7 @@ export default function RegisterModal({ navigation }) {
                   value={form.username}
                   placeholder="Username"
                 />
-                <Text>
+                <Text style={styles.errorText}>
                   <ErrorMessage name="username" />
                 </Text>
                 <TextInput
@@ -108,7 +106,7 @@ export default function RegisterModal({ navigation }) {
                   value={form.firstName}
                   placeholder="First name"
                 />
-                <Text>
+                <Text style={styles.errorText}>
                   <ErrorMessage name="firstName" />
                 </Text>
                 <TextInput
@@ -118,7 +116,7 @@ export default function RegisterModal({ navigation }) {
                   value={form.lastName}
                   placeholder="Last name"
                 />
-                <Text>
+                <Text style={styles.errorText}>
                   <ErrorMessage name="lastName" />
                 </Text>
                 <TextInput
@@ -128,7 +126,7 @@ export default function RegisterModal({ navigation }) {
                   value={form.email}
                   placeholder="Email"
                 />
-                <Text>
+                <Text style={styles.errorText}>
                   <ErrorMessage name="email" />
                 </Text>
                 <TextInput
@@ -139,7 +137,7 @@ export default function RegisterModal({ navigation }) {
                   placeholder="Password"
                   secureTextEntry={true}
                 />
-                <Text>
+                <Text style={styles.errorText}>
                   <ErrorMessage name="password" />
                 </Text>
                 <TextInput
@@ -150,48 +148,97 @@ export default function RegisterModal({ navigation }) {
                   placeholder="Confirm password"
                   secureTextEntry={true}
                 />
-                <Text>
+                <Text style={styles.errorText}>
                   <ErrorMessage name="confirmPassword" />
                 </Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                  }}
-                >
-                  <Button
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
                     onPress={() => setModalVisibility(false)}
-                    title="Back"
-                  />
-                  <Button onPress={handleSubmit} title="Submit" />
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Back</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={handleSubmit}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Submit</Text>
+                  </TouchableOpacity>
                 </View>
-                <Text>{errorMessage}</Text>
+                <Text style={styles.errorText}>{errorMessage}</Text>
               </View>
             )}
           </Formik>
         </ScrollView>
       </Modal>
-      <Button onPress={() => setModalVisibility(true)} title="Create account" />
-      <Text style={{ textAlign: "center" }}>{success}</Text>
+      <TouchableOpacity
+        onPress={() => setModalVisibility(true)}
+        style={styles.createButton}
+      >
+        <Text style={styles.createButtonText}>Create account</Text>
+      </TouchableOpacity>
+      <Text style={styles.successText}>{success}</Text>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    marginTop: 0,
+    flex: 1,
+    backgroundColor: "#333333",
+  },
   input: {
-    backgroundColor: "lightgrey",
-    marginTop: 5,
-    // marginBottom: 5,
-    width: "50%",
+    backgroundColor: "#f2f2f2",
+    marginTop: 10,
+    marginBottom: 5,
+    width: "80%",
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    borderRadius: 8,
   },
   form: {
     alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
-  modal: {
-    marginTop: 50,
-    height: "50",
-    flex: 1,
-    justifyContent: "flex-start",
-    // paddingTop: 20,
-    backgroundColor: "white",
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: "#4caf50",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  createButton: {
+    backgroundColor: "#4caf50",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+    alignSelf: "center",
+    marginTop: 20,
+  },
+  createButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  errorText: {
+    color: "#ff0000",
+    marginTop: 5,
+    marginBottom: 10,
+  },
+  successText: {
+    textAlign: "center",
+    marginTop: 10,
+    color: "white",
   },
 });

@@ -43,7 +43,7 @@ const Nav = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "#007bff",
+        tabBarActiveTintColor: "#4caf50",
         tabBarInactiveTintColor: "#999",
         tabBarLabelStyle: styles.tabLabel,
         tabBarStyle: styles.tabBar,
@@ -94,6 +94,5 @@ const styles = StyleSheet.create({
   },
   tabIcon: {
     fontSize: 24,
-    color: "#007bff",
   },
 });
