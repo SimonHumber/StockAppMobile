@@ -9,7 +9,7 @@ const toggleFavEndpoint = async (symbol) => {
       Authorization: `Bearer ${jwt}`,
     };
     const response = await axios.post(
-      `http://${domain}:4000/toggleFav`,
+      `${domain}/toggleFav`,
       {
         symbol,
       },

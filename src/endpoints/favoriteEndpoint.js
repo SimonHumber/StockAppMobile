@@ -9,7 +9,7 @@ const favoriteEndpoint = async () => {
       Authorization: `Bearer ${jwt}`,
     };
     const response = await axios.post(
-      `http://${domain}:4000/favorite`,
+      `${domain}/favorite`,
       {},
       { headers: header },
     );

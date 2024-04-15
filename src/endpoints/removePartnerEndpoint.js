@@ -9,7 +9,7 @@ const removePartnerEndpoint = async (username) => {
       Authorization: `Bearer ${jwt}`,
     };
     const response = await axios.post(
-      `http://${domain}:4000/removePartner`,
+      `${domain}/removePartner`,
       {
         username,
       },

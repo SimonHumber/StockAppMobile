@@ -5,7 +5,7 @@ import domain from "./domain";
 const savedEndpoint = async () => {
   const jwt = store.getState().jwt;
   try {
-    const saved = await axios.post(`http://${domain}:4000/savedEndpoint`, {
+    const saved = await axios.post(`${domain}/savedEndpoint`, {
       jwt,
     });
     return saved;

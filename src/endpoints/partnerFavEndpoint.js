@@ -9,7 +9,7 @@ const partnerFavEndpoint = async (partner) => {
       Authorization: `Bearer ${jwt}`,
     };
     const response = await axios.post(
-      `http://${domain}:4000/partnerFav`,
+      `${domain}/partnerFav`,
       { partner },
       { headers: header },
     );

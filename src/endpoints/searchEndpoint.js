@@ -5,7 +5,7 @@ const searchEndpoint = async (query) => {
   try {
     let response;
     if (query.length > 0) {
-      response = axios.post(`http://${domain}:4000/search`, {
+      response = axios.post(`${domain}/search`, {
         query,
       });
       return response;

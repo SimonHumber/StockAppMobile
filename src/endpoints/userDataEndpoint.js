@@ -9,7 +9,7 @@ const userDataEndpoint = async () => {
       Authorization: `Bearer ${jwt}`,
     };
     const response = await axios.post(
-      `http://${domain}:4000/user`,
+      `${domain}/user`,
       {},
       { headers: header },
     );
